@@ -40,10 +40,14 @@ export const LoginForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data) {
+          setError(data.error || "");  // Fallback in case data.error is undefined
+          setSuccess(data.success || "");  // Fallback for data.success
+        } else {
+          setError("An unexpected error occurred.");
+        }
       });
-    });
+    });;
   };
 
   return (

@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
 import authConfig from "@/auth.config";
 
 import {
@@ -14,10 +13,9 @@ const { auth } = NextAuth(authConfig);
 
 export default auth(async (req: NextRequest) => {
   const { nextUrl } = req;
-  const token = await getToken({ req });
-  const isLoggedIn = !!token;
-  // const { nextUrl } = req;
-  // const isLoggedIn = !!req.auth;
+  // const token = await getToken({ req });
+  // const isLoggedIn = !!token;
+  const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
