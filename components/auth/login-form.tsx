@@ -47,9 +47,8 @@ const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     startTransition(() => {
       login(values).then((data) => {
         if (data) {
-          setError(data?.error); 
-          // TODO: add when we add 2FA
-          // setSuccess(data?.success); 
+          setError(data?.error);
+          setSuccess(data?.success); 
         } else {
           setError("An unexpected error occurred.");
         }
