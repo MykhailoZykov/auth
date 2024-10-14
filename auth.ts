@@ -7,7 +7,7 @@ import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages:{
+  pages: {
     signIn: "/auth/login",
     error: "auth/error",
   },
@@ -20,16 +20,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   callbacks: {
-    async signIn({user, account}){
-// Allow oAuth without email verification
-      if(account?.provider !== "credentials") return true;
+    async signIn({ user, account }) {
+      // Allow oAuth without email verification
+      if (account?.provider !== "credentials") return true;
 
       const existingUser = await getUserById(user.id);
 
       // Prevent sign in without email verification
-      if(!existingUser?.emailVerified) return false;
+      if (!existingUser?.emailVerified) return false;
 
-        // Add 2FA check
+      // Add 2FA check
 
       return true;
     },
