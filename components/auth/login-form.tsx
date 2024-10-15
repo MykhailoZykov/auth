@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Link from "next/link";
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
@@ -23,10 +24,11 @@ import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
-const searchParams = useSearchParams();
-const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
-? "Email already in use with different provider"
-: "";
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider"
+      : "";
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -48,7 +50,7 @@ const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
       login(values).then((data) => {
         if (data) {
           setError(data?.error);
-          setSuccess(data?.success); 
+          setSuccess(data?.success);
         } else {
           setError("An unexpected error occurred.");
         }
@@ -98,6 +100,13 @@ const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
                       type="password"
                     />
                   </FormControl>
+                  <Button className="px-0 font-normal"
+                  asChild
+                  variant="link"
+                  size="sm"
+                  >
+                    <Link href="/auth/reset">Forgot password ?</Link>
+                  </Button>
                   <FormMessage />
                 </FormItem>
               )}
