@@ -2,6 +2,8 @@
 
 import bcrypt from "bcryptjs";
 import * as z from "zod";
+// import { update } from "@/auth";
+
 import { db } from "@/lib/db";
 import { SettingsSchema } from "@/schemas";
 import { getUserByEmail, getUserById } from "@/data/user";
@@ -15,7 +17,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     return { error: "Unauthorized!" };
   }
 
-  const dbUser = await getUserById(user.id);
+  const dbUser = await getUserById(user.id as string);
   if (!dbUser) {
     return { error: "Unauthorized!" };
   }
@@ -54,12 +56,27 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.newPassword = undefined;
   }
 
+  // const updatedUser = await db.user.update({
+  //   where: { id: dbUser.id },
+  //   data: {
+  //     ...values,
+  //   },
+  // });
+
   await db.user.update({
     where: { id: dbUser.id },
     data: {
       ...values,
     },
   });
+  // update({
+  //   user:{
+  //     name: updatedUser.name,
+  //     email: updatedUser.email,
+  //     isTwoFactorEnabled: updatedUser.isTwoFactorEnabled,
+  //     role: updatedUser.role,
+  //   }
+  // });
 
   return { success: "Settings Updated!" };
 };

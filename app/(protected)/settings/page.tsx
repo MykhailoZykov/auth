@@ -32,12 +32,12 @@ import {
 import { UserRole } from "@prisma/client";
 import { Switch } from "@/components/ui/switch";
 
-const SettingsPagediv = () => {
+const SettingsPage = () => {
   const user = useCurrentUser();
-
+  const { update } = useSession();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
-  const { update } = useSession();
+
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof SettingsSchema>>({
@@ -48,6 +48,7 @@ const SettingsPagediv = () => {
       password: undefined,
       newPassword: undefined,
       role: user?.role || undefined,
+      isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
     },
   });
 
@@ -211,4 +212,4 @@ const SettingsPagediv = () => {
   );
 };
 
-export default SettingsPagediv;
+export default SettingsPage;
