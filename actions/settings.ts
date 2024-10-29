@@ -1,5 +1,6 @@
 "use server";
 
+import bcrypt from "bcryptjs";
 import * as z from "zod";
 import { db } from "@/lib/db";
 import { SettingsSchema } from "@/schemas";
@@ -39,6 +40,18 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       verificationToken.token
     );
     return { success: "Verification email sent!" };
+  }
+
+  if (values.password && values.newPassword && dbUser.password) {
+    const passwordsMatch = await bcrypt.compare(
+      values.password,
+      dbUser.password
+    );
+    if (!passwordsMatch) return { error: "Incorrect password!" };
+
+    const hashedPassword = await bcrypt.hash(values.newPassword, 10);
+    values.password = hashedPassword;
+    values.newPassword = undefined;
   }
 
   await db.user.update({
