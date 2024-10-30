@@ -22,7 +22,7 @@ export default function Home() {
         </h1>
         <p className="text-white text-lg">A simple authentification service</p>
         <div>
-          <LoginButton mode="modal" asChild>
+          <LoginButton asChild>
             <Button variant="secondary" size="lg">
               Sign In
             </Button>
@@ -32,3 +32,5 @@ export default function Home() {
     </main>
   );
 }
+// Add mode to LoginButton as prop to change redirection to madal mode
+// mode="modal"

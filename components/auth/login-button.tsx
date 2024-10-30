@@ -16,8 +16,10 @@ export const LoginButton = ({
   asChild,
 }: LoginButtonProps) => {
   const router = useRouter();
-  router.push("/auth/login");
 
+  const onClick = () => {
+    router.push("/auth/login");
+  };
   if (mode === "modal") {
     return (
       <Dialog>
@@ -28,4 +30,10 @@ export const LoginButton = ({
       </Dialog>
     );
   }
+
+  return (
+    <span onClick={onClick} className="cursor-pointer">
+      {children}
+    </span>
+  );
 };
